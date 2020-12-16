@@ -5,7 +5,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>571,945</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>731,1836</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>LeituraNF_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="30">
@@ -42,7 +42,7 @@
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="17">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="27">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -60,9 +60,19 @@
       <AssemblyReference>UiPath.System.Activities</AssemblyReference>
       <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
       <AssemblyReference>UiPath.PDF.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="LeituraNF" sap:VirtualizedContainerService.HintSize="454,880" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="LeituraNF" sap:VirtualizedContainerService.HintSize="558,1771" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="s:String[]" Name="Files" />
     </Sequence.Variables>
@@ -71,7 +81,7 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <Assign sap:VirtualizedContainerService.HintSize="412,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <Assign sap:VirtualizedContainerService.HintSize="516,60" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="s:String[]">[Files]</OutArgument>
       </Assign.To>
@@ -79,41 +89,97 @@
         <InArgument x:TypeArguments="s:String[]">[Directory.Getfiles(in_FolderPath)]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:ForEach x:TypeArguments="x:Object" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="412,688" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[Files]">
+    <Assign sap:VirtualizedContainerService.HintSize="516,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="s:String[][]">[out_Data]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="s:String[][]">[new String((Files.Length-1))(){}]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:ForEach x:TypeArguments="x:Object" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="516,1479" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[Files]">
       <ui:ForEach.Body>
         <ActivityAction x:TypeArguments="x:Object">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="x:Object" Name="file" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,554" sap2010:WorkflowViewState.IdRef="Sequence_4">
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="480,1345" sap2010:WorkflowViewState.IdRef="Sequence_4">
             <Sequence.Variables>
               <Variable x:TypeArguments="x:String" Name="text" />
               <Variable x:TypeArguments="scg:IEnumerable(str:Match)" Name="numNF" />
               <Variable x:TypeArguments="scg:IEnumerable(str:Match)" Name="totalvalueNF" />
               <Variable x:TypeArguments="scg:IEnumerable(str:Match)" Name="nameRemetente" />
+              <Variable x:TypeArguments="scg:IEnumerable(str:Match)" Name="tipoNota" />
             </Sequence.Variables>
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <ui:ReadPDFText PreserveFormatting="{x:Null}" DisplayName="Read PDF Text" FileName="[file.ToString]" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="ReadPDFText_2" Range="All" Text="[text]" />
-            <ui:Matches BuilderPattern="(?&lt;=Nº).*(?=\s)" DisplayName="GetNFnumber" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="Matches_8" Input="[text]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;LIT&quot;,&quot;OperationName&quot;:&quot;Literal&quot;,&quot;OperationValue&quot;:&quot;(?&lt;=Nº).*(?=\\s)&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern="(?&lt;=Nº).*(?=\s)" RegexOption="IgnoreCase" Result="[numNF]" />
-            <ui:Matches BuilderPattern="(?&lt;=VALOR TOTAL: R[$] ).*(?=DESTIN)" DisplayName="GetNFtotalValue" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="Matches_9" Input="[text]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;LIT&quot;,&quot;OperationName&quot;:&quot;Literal&quot;,&quot;OperationValue&quot;:&quot;(?&lt;=VALOR TOTAL: R[$] ).*(?=DESTIN)&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern="(?&lt;=VALOR TOTAL: R[$] ).*(?=DESTIN)" RegexOption="IgnoreCase" Result="[totalvalueNF]" />
-            <ui:Matches BuilderPattern=".*(?=\d{2}[.]\d{3}[.]\d{3}[/]\d{4}-\d{2}\s\d{2}[/]\d{2}[/]\d{4})" DisplayName="GetNameRemetente" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="Matches_10" Input="[text]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;LIT&quot;,&quot;OperationName&quot;:&quot;Literal&quot;,&quot;OperationValue&quot;:&quot;.*(?=\\d{2}[.]\\d{3}[.]\\d{3}[\/]\\d{4}-\\d{2}\\s\\d{2}[\/]\\d{2}[\/]\\d{4})&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern=".*(?=\d{2}[.]\d{3}[.]\d{3}[/]\d{4}-\d{2}\s\d{2}[/]\d{2}[/]\d{4})" RegexOption="IgnoreCase" Result="[nameRemetente]" />
-            <Sequence DisplayName="OUTPUT SEQUENCE" sap:VirtualizedContainerService.HintSize="334,66" sap2010:WorkflowViewState.IdRef="Sequence_5">
+            <ui:ReadPDFText PreserveFormatting="{x:Null}" DisplayName="Read PDF Text" FileName="[file.ToString]" sap:VirtualizedContainerService.HintSize="438,59" sap2010:WorkflowViewState.IdRef="ReadPDFText_2" Range="All" Text="[text]" />
+            <ui:WriteTextFile DisplayName="Write Text File" FileName="C:\Users\supor\Desktop\text.txt" sap:VirtualizedContainerService.HintSize="438,132" sap2010:WorkflowViewState.IdRef="WriteTextFile_1" Text="[text]" />
+            <Sequence DisplayName="Capturando Dados" sap:VirtualizedContainerService.HintSize="438,448" sap2010:WorkflowViewState.IdRef="Sequence_6">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:Matches BuilderPattern="(?&lt;=Nº).*(?=\s)" DisplayName="GetNFnumber" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="Matches_8" Input="[text]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;LIT&quot;,&quot;OperationName&quot;:&quot;Literal&quot;,&quot;OperationValue&quot;:&quot;(?&lt;=Nº).*(?=\\s)&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern="(?&lt;=Nº).*(?=\s)" RegexOption="IgnoreCase" Result="[numNF]" />
+              <ui:Matches BuilderPattern="(?&lt;=VALOR TOTAL: R[$] ).*(?=DESTIN)" DisplayName="GetNFtotalValue" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="Matches_9" Input="[text]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;LIT&quot;,&quot;OperationName&quot;:&quot;Literal&quot;,&quot;OperationValue&quot;:&quot;(?&lt;=VALOR TOTAL: R[$] ).*(?=DESTIN)&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern="(?&lt;=VALOR TOTAL: R[$] ).*(?=DESTIN)" RegexOption="IgnoreCase" Result="[totalvalueNF]" />
+              <ui:Matches BuilderPattern=".*(?=\d{2}[.]\d{3}[.]\d{3}[/]\d{4}-\d{2}\s\d{2}[/]\d{2}[/]\d{4})" DisplayName="GetNameRemetente" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="Matches_10" Input="[text]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;LIT&quot;,&quot;OperationName&quot;:&quot;Literal&quot;,&quot;OperationValue&quot;:&quot;.*(?=\\d{2}[.]\\d{3}[.]\\d{3}[\/]\\d{4}-\\d{2}\\s\\d{2}[\/]\\d{2}[\/]\\d{4})&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern=".*(?=\d{2}[.]\d{3}[.]\d{3}[/]\d{4}-\d{2}\s\d{2}[/]\d{2}[/]\d{4})" RegexOption="IgnoreCase" Result="[nameRemetente]" />
+              <ui:Matches BuilderPattern="(Venda).*|(Prestacao).*" DisplayName="GetTipoNota" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="Matches_11" Input="[text]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;LIT&quot;,&quot;OperationName&quot;:&quot;Literal&quot;,&quot;OperationValue&quot;:&quot;(Venda).*|(Prestacao).*&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern="(Venda).*|(Prestacao).*" RegexOption="IgnoreCase" Result="[tipoNota]" />
+            </Sequence>
+            <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="438,61" sap2010:WorkflowViewState.IdRef="WriteLine_9" Text="[Array.IndexOf(Files,file).ToString]" />
+            <Sequence DisplayName="OUTPUT SEQUENCE" sap:VirtualizedContainerService.HintSize="438,66" sap2010:WorkflowViewState.IdRef="Sequence_5">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                   <x:Boolean x:Key="IsPinned">False</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="230,61" sap2010:WorkflowViewState.IdRef="WriteLine_4" Text="[text]" />
               <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="230,61" sap2010:WorkflowViewState.IdRef="WriteLine_6" Text="[&quot;Número da nota: &quot;+numNF(0).toString]" />
               <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="230,61" sap2010:WorkflowViewState.IdRef="WriteLine_7" Text="[&quot;Valor total: &quot;+totalvalueNF(0).toString]" />
               <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="230,61" sap2010:WorkflowViewState.IdRef="WriteLine_8" Text="[&quot;Remetente: &quot;+nameRemetente(0).toString]" />
+              <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="230,61" sap2010:WorkflowViewState.IdRef="WriteLine_11" Text="[&quot;Tipo da Nota: &quot;+tipoNota(0).toString]" />
               <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="230,61" sap2010:WorkflowViewState.IdRef="WriteLine_5" Text="+++++++++++++++++++++" />
             </Sequence>
+            <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="438,287" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+              <TryCatch.Try>
+                <ui:AddQueueItem ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Add Queue Item" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddQueueItem_1" Priority="Normal" QueueType="ValoresNotas" Reference="[numNF(0).toString]">
+                  <ui:AddQueueItem.ItemInformation>
+                    <InArgument x:TypeArguments="x:String" x:Key="numNota">
+                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="numNF(0).toString" />
+                    </InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="nameRemetente">
+                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="nameRemetente(0).toString" />
+                    </InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="valorTotal">
+                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="totalvalueNF(0).toString" />
+                    </InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="tipoNota">
+                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="tipoNota(0).toString" />
+                    </InArgument>
+                  </ui:AddQueueItem.ItemInformation>
+                </ui:AddQueueItem>
+              </TryCatch.Try>
+              <TryCatch.Catches>
+                <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_2">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ActivityAction x:TypeArguments="s:Exception">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                    </ActivityAction.Argument>
+                    <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="230,61" sap2010:WorkflowViewState.IdRef="WriteLine_10" Text="[exception.ToString]" />
+                  </ActivityAction>
+                </Catch>
+              </TryCatch.Catches>
+            </TryCatch>
           </Sequence>
         </ActivityAction>
       </ui:ForEach.Body>
